@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/" class="marca">Círculo Malabarista</a>
+
+            <nav>
+                <a href="/">Inicio</a>
+                <a href="/numeros">Números artísticos</a>
+                <a href="/solicitudes/nueva">Cambiar modalidad</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="cabecera-pagina">
+            <div class="contenedor">
+                <p class="etiqueta">Solicitud avanzada</p>
+
+                <h1>Arma tu espectáculo</h1>
+
+                <p>
+                    Escoge los números que deseas presentar y acomódalos
+                    en el orden en que te gustaría verlos.
+                </p>
+            </div>
+        </section>
+
+        <section class="contenedor seccion">
+            <% if (error) { %>
+                <div class="mensaje-error">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form
+                action="/solicitudes/avanzada"
+                method="POST"
+                class="formulario-solicitud"
+                id="formularioAvanzado"
+            >
+                <input
+                    type="hidden"
+                    name="tipoSolicitud"
+                    value="Avanzada"
+                >
+
+                <fieldset>
+                    <legend>1. Datos de contacto</legend>
+
+                    <div class="rejilla-formulario">
+                        <div class="campo">
+                            <label for="nombreCliente">
+                                Nombre completo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nombreCliente"
+                                name="nombreCliente"
+                                maxlength="100"
+                                value="<%= datos.nombreCliente || '' %>"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="correoCliente">
+                                Correo electrónico
+                            </label>
+
+                            <input
+                                type="email"
+                                id="correoCliente"
+                                name="correoCliente"
+                                maxlength="100"
+                                value="<%= datos.correoCliente || '' %>"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="telefonoCliente">
+                                Teléfono
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="telefonoCliente"
+                                name="telefonoCliente"
+                                maxlength="20"
+                                value="<%= datos.telefonoCliente || '' %>"
+                                required
+                            >
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>2. Información del evento</legend>
+
+                    <div class="rejilla-formulario">
+                        <div class="campo">
+                            <label for="tipoEvento">
+                                Tipo de evento
+                            </label>
+
+                            <select
+                                id="tipoEvento"
+                                name="tipoEvento"
+                                required
+                            >
+                                <option value="">Selecciona</option>
+                                <option>Celebración particular</option>
+                                <option>Evento empresarial</option>
+                                <option>Actividad comunitaria</option>
+                                <option>Evento municipal</option>
+                                <option>Festival</option>
+                                <option>Actividad educativa</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label for="fechaEvento">Fecha</label>
+
+                            <input
+                                type="date"
+                                id="fechaEvento"
+                                name="fechaEvento"
+                                value="<%= datos.fechaEvento || '' %>"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="horaEvento">Hora</label>
+
+                            <input
+                                type="time"
+                                id="horaEvento"
+                                name="horaEvento"
+                                value="<%= datos.horaEvento || '' %>"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="comuna">Comuna</label>
+
+                            <input
+                                type="text"
+                                id="comuna"
+                                name="comuna"
+                                maxlength="100"
+                                value="<%= datos.comuna || '' %>"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo campo-completo">
+                            <label for="lugarEvento">
+                                Dirección o lugar del evento
+                            </label>
+
+                            <input
+                                type="text"
+                                id="lugarEvento"
+                                name="lugarEvento"
+                                maxlength="200"
+                                value="<%= datos.lugarEvento || '' %>"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="duracionMinutos">
+                                Duración
+                            </label>
+
+                            <select
+                                id="duracionMinutos"
+                                name="duracionMinutos"
+                                required
+                            >
+                                <option value="30">30 minutos</option>
+                                <option value="45">45 minutos</option>
+                                <option value="60" selected>
+                                    60 minutos
+                                </option>
+                                <option value="90">90 minutos</option>
+                                <option value="120">120 minutos</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label for="cantidadAsistentes">
+                                Cantidad de asistentes
+                            </label>
+
+                            <input
+                                type="number"
+                                id="cantidadAsistentes"
+                                name="cantidadAsistentes"
+                                min="1"
+                                value="<%= datos.cantidadAsistentes || 50 %>"
+                                required
+                            >
+                        </div>
+
+                                        <div class="campo campo-completo">
+                    <div class="resultado-artistas">
+                        <span>Equipo artístico necesario</span>
+
+                        <strong id="cantidadArtistasTexto">
+                            Selecciona números para calcularlo
+                        </strong>
+
+                        <p id="nombresArtistas">
+                            El sistema buscará automáticamente la combinación
+                            mínima de artistas.
+                        </p>
+                    </div>
+
+                    <input
+                        type="hidden"
+                        id="cantidadArtistas"
+                        name="cantidadArtistas"
+                        value="1"
+                    >
+                </div>
+
+                        <label class="casilla campo-completo">
+                            <input
+                                type="checkbox"
+                                name="cuentaAmplificacion"
+                            >
+
+                            El lugar cuenta con amplificación y micrófono.
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>3. Escoge los números</legend>
+
+                    <p class="ayuda-formulario">
+                        Pulsa “Agregar” en cada número que quieras
+                        incorporar. Un número no puede agregarse dos veces.
+                    </p>
+
+                    <div class="catalogo-constructor">
+                        <% numeros.forEach(numero => { %>
+                            <article
+                                class="opcion-numero"
+                                data-id="<%= numero._id %>"
+                            >
+                                <span class="categoria">
+                                    <%= numero.categoria %>
+                                </span>
+
+                                <h2><%= numero.nombre %></h2>
+
+                                <p><%= numero.descripcion %></p>
+
+                                <% if (numero.recursoUnico) { %>
+                                    <small class="texto-limitado">
+                                        Sujeto a disponibilidad del recurso.
+                                    </small>
+                                <% } %>
+
+                                <strong class="precio-numero">
+                                    <%= new Intl.NumberFormat(
+                                        "es-CL",
+                                        {
+                                            style: "currency",
+                                            currency: "CLP",
+                                            maximumFractionDigits: 0
+                                        }
+                                    ).format(numero.precioBase) %>
+                                </strong>
+
+                                <button
+                                    type="button"
+                                    class="boton-agregar"
+                                    data-id="<%= numero._id %>"
+                                    data-nombre="<%= numero.nombre %>"
+                                    data-precio="<%= numero.precioBase %>"
+                                >
+                                    Agregar a mi espectáculo
+                                </button>
+                            </article>
+                        <% }) %>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>4. Mi espectáculo</legend>
+
+                    <p class="ayuda-formulario">
+                        Los números se presentarán en el orden mostrado.
+                        Utiliza “Subir” o “Bajar” para cambiar la secuencia.
+                    </p>
+
+                    <div
+                        id="parrillaVacia"
+                        class="parrilla-vacia"
+                    >
+                        Aún no has agregado números artísticos.
+                    </div>
+
+                    <ol
+                        id="parrillaSeleccionada"
+                        class="parrilla-constructor"
+                    ></ol>
+
+                    <div id="camposOcultos"></div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>5. Condiciones y observaciones</legend>
+
+                    <div class="campo">
+                        <label for="observaciones">
+                            Observaciones
+                        </label>
+
+                        <textarea
+                            id="observaciones"
+                            name="observaciones"
+                            rows="5"
+                            maxlength="1000"
+                            placeholder="Cuéntanos cualquier característica especial del evento."
+                        ><%= datos.observaciones || '' %></textarea>
+                    </div>
+
+                    <p>
+                        La presentación requiere un espacio seguro,
+                        acceso a baño y un lugar donde los artistas
+                        puedan prepararse. La agrupación llevará su
+                        propio sonidista.
+                    </p>
+
+                    <label class="casilla condiciones">
+                        <input
+                            type="checkbox"
+                            name="aceptaCondiciones"
+                            required
+                        >
+
+                        He leído y acepto las condiciones generales.
+                    </label>
+                </fieldset>
+
+                <section class="resumen-cotizacion">
+                    <div>
+                        <span>Valor preliminar estimado</span>
+
+                        <strong id="valorCotizacion">$100.000</strong>
+                    </div>
+
+                    <p>
+                        Incluye artistas y sonidista. El traslado será
+                        evaluado posteriormente y no está incluido.
+                    </p>
+                </section>
+
+                <button
+                    type="submit"
+                    class="boton boton-principal ancho-completo"
+                >
+                    Enviar propuesta personalizada
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <script src="/js/solicitud-avanzada.js"></script>
+</body>
+</html>

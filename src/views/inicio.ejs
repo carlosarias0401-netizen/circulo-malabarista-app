@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/" class="marca">Círculo Malabarista</a>
+
+            <nav>
+                <a href="/">Inicio</a>
+                <a href="/numeros">Números artísticos</a>
+                <a href="/solicitudes/nueva">Solicitar servicio</a>
+                <a href="/login">Acceso interno</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="portada">
+            <div class="contenedor contenido-portada">
+                <p class="etiqueta">Artes circenses y espectáculos</p>
+
+                <h1>Presentaciones artísticas para diferentes tipos de eventos</h1>
+
+                <p>
+                    Conoce nuestros números circenses y construye una propuesta
+                    adaptada a las características de tu evento.
+                </p>
+
+                <div class="acciones">
+                    <a href="/solicitudes/nueva" class="boton boton-principal">
+                        Solicitar presentación
+                    </a>
+
+                    <a href="/numeros" class="boton boton-secundario">
+                        Ver números artísticos
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="contenedor seccion">
+            <h2>Una propuesta construida para tu evento</h2>
+
+            <div class="tarjetas">
+                <article class="tarjeta">
+                    <h3>Solicitud normal</h3>
+                    <p>
+                        Indica las características generales del evento y la
+                        cantidad de artistas que necesitas.
+                    </p>
+                </article>
+
+                <article class="tarjeta">
+                    <h3>Solicitud avanzada</h3>
+                    <p>
+                        Selecciona y ordena los números artísticos para construir
+                        una parrilla personalizada.
+                    </p>
+                </article>
+
+                <article class="tarjeta">
+                    <h3>Solicitud comunitaria</h3>
+                    <p>
+                        Alternativa destinada a juntas de vecinos y otras
+                        organizaciones comunitarias.
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contenedor">
+            <p>Sistema de gestión de Círculo Malabarista</p>
+        </div>
+    </footer>
+</body>
+</html>

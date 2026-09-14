@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/panel" class="marca">
+                Panel Círculo Malabarista
+            </a>
+
+            <form action="/logout" method="POST">
+                <button type="submit" class="boton-salir">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <main class="contenedor seccion">
+        <a href="/panel/solicitudes" class="volver">
+            ← Volver a solicitudes
+        </a>
+
+        <div class="cabecera-detalle">
+            <div>
+                <p class="etiqueta-panel">
+                    <%= solicitud.codigoSeguimiento %>
+                </p>
+
+                <h1 class="titulo-panel">
+                    <%= solicitud.nombreCliente %>
+                </h1>
+            </div>
+
+            <span class="estado estado-<%= solicitud.estado.toLowerCase() %>">
+                <%= solicitud.estado %>
+            </span>
+        </div>
+
+        <% if (error) { %>
+            <div class="mensaje-error">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <section class="detalle-solicitud">
+            <div>
+                <span>Modalidad</span>
+                <strong><%= solicitud.tipoSolicitud %></strong>
+            </div>
+
+            <div>
+                <span>Correo</span>
+                <strong><%= solicitud.correoCliente %></strong>
+            </div>
+
+            <div>
+                <span>Teléfono</span>
+                <strong><%= solicitud.telefonoCliente %></strong>
+            </div>
+
+            <div>
+                <span>Tipo de evento</span>
+                <strong><%= solicitud.tipoEvento %></strong>
+            </div>
+
+            <div>
+                <span>Fecha y hora</span>
+                <strong>
+                    <%= solicitud.fechaEvento.toLocaleDateString("es-CL") %>
+                    · <%= solicitud.horaEvento %>
+                </strong>
+            </div>
+
+            <div>
+                <span>Comuna</span>
+                <strong><%= solicitud.comuna %></strong>
+            </div>
+
+            <div>
+                <span>Lugar</span>
+                <strong><%= solicitud.lugarEvento %></strong>
+            </div>
+
+            <div>
+                <span>Asistentes</span>
+                <strong><%= solicitud.cantidadAsistentes %></strong>
+            </div>
+
+            <div>
+                <span>Duración</span>
+                <strong>
+                    <%= solicitud.duracionMinutos %> minutos
+                </strong>
+            </div>
+
+            <div>
+                <span>Cantidad de artistas</span>
+                <strong><%= solicitud.cantidadArtistas %></strong>
+            </div>
+
+            <div>
+                <span>Cotización preliminar</span>
+                <strong>
+                    <%= new Intl.NumberFormat(
+                        "es-CL",
+                        {
+                            style: "currency",
+                            currency: "CLP",
+                            maximumFractionDigits: 0
+                        }
+                    ).format(solicitud.cotizacionEstimada) %>
+                </strong>
+            </div>
+
+            <div>
+                <span>Amplificación del cliente</span>
+                <strong>
+                    <%= solicitud.cuentaAmplificacion ? "Sí" : "No" %>
+                </strong>
+            </div>
+        </section>
+
+        <% if (solicitud.artistasSugeridos.length > 0) { %>
+            <section class="bloque-detalle">
+                <h2>Equipo sugerido</h2>
+
+                <p>
+                    <%= solicitud.artistasSugeridos
+                        .map(artista => artista.nombre)
+                        .join(", ") %>
+                </p>
+            </section>
+        <% } %>
+
+        <% if (numerosSeleccionados.length > 0) { %>
+            <section class="bloque-detalle">
+                <h2>Parrilla artística</h2>
+
+                <ol>
+                    <% numerosSeleccionados.forEach(item => { %>
+                        <li><%= item.numero.nombre %></li>
+                    <% }) %>
+                </ol>
+            </section>
+        <% } %>
+
+        <section class="bloque-detalle">
+            <h2>Observaciones del cliente</h2>
+
+            <p>
+                <%= solicitud.observaciones ||
+                    "El cliente no agregó observaciones." %>
+            </p>
+        </section>
+
+        <% if (usuarioActual.rol === "Administrador") { %>
+            <section class="gestion-administrativa">
+                <h2>Gestionar solicitud</h2>
+
+                <form
+                    action="/panel/solicitudes/<%= solicitud._id %>/estado"
+                    method="POST"
+                ><div class="asignacion-artistas">
+    <h3>Asignación definitiva de artistas</h3>
+
+    <p>
+        El sistema propone un equipo, pero el Administrador
+        puede determinar quiénes participarán finalmente.
+    </p>
+
+    <div class="lista-artistas">
+        <% artistasDisponibles.forEach(artista => { %>
+            <% const sugerido = solicitud.artistasSugeridos.some(
+                elemento =>
+                    elemento._id.toString() === artista._id.toString()
+            ); %>
+
+            <% const asignado = solicitud.artistasAsignados.some(
+                elemento =>
+                    elemento._id.toString() === artista._id.toString()
+            ); %>
+
+            <label class="artista-seleccionable">
+                <input
+                    type="checkbox"
+                    name="artistasAsignados"
+                    value="<%= artista._id %>"
+                    <%= asignado || (
+                        solicitud.estado === "Pendiente" &&
+                        sugerido
+                    ) ? "checked" : "" %>
+                >
+
+                <span>
+                    <strong><%= artista.nombre %></strong>
+
+                    <small>
+                        <%= sugerido
+                            ? "Recomendado por el sistema"
+                            : "Disponible" %>
+                    </small>
+                </span>
+            </label>
+        <% }) %>
+    </div>
+</div>
+                    <div class="rejilla-formulario">
+                        <div class="campo">
+                            <label for="cotizacionFinal">
+                                Cotización definitiva
+                            </label>
+
+                            <input
+                                type="number"
+                                id="cotizacionFinal"
+                                name="cotizacionFinal"
+                                min="0"
+                                value="<%= solicitud.cotizacionFinal || solicitud.cotizacionEstimada %>"
+                                required
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="estado">
+                                Decisión
+                            </label>
+
+                            <select
+                                id="estado"
+                                name="estado"
+                                required
+                            >
+                                <option value="">Selecciona</option>
+                                <option value="Aceptada">
+                                    Aceptar solicitud
+                                </option>
+                                <option value="Rechazada">
+                                    Rechazar solicitud
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="campo campo-completo">
+                            <label for="observacionesCotizacion">
+                                Observaciones de gestión
+                            </label>
+
+                            <textarea
+                                id="observacionesCotizacion"
+                                name="observacionesCotizacion"
+                                rows="4"
+                                maxlength="1000"
+                            ><%= solicitud.observacionesCotizacion || "" %></textarea>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="boton boton-principal"
+                    >
+                        Guardar decisión
+                    </button>
+                </form>
+            </section>
+        <% } else { %>
+            <section class="bloque-detalle">
+                <p>
+                    Tu perfil de Integrante permite consultar esta
+                    información, pero no modificarla.
+                </p>
+            </section>
+        <% } %>
+    </main>
+</body>
+</html>

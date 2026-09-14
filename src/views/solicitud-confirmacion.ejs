@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <main class="pagina-formulario">
+        <section class="contenedor-formulario confirmacion">
+            <div class="icono-confirmacion">✓</div>
+
+            <h1>Solicitud registrada</h1>
+
+            <p>
+                La propuesta fue enviada correctamente y quedó
+                pendiente de evaluación.
+            </p>
+
+            <div class="codigo-seguimiento">
+                <span>Código de seguimiento</span>
+                <strong><%= solicitud.codigoSeguimiento %></strong>
+            </div>
+
+            <dl class="resumen-solicitud">
+                <div>
+                    <dt>Modalidad</dt>
+                    <dd><%= solicitud.tipoSolicitud %></dd>
+                </div>
+
+                <div>
+                    <dt>Fecha</dt>
+                    <dd>
+                        <%= solicitud.fechaEvento.toLocaleDateString("es-CL") %>
+                        a las <%= solicitud.horaEvento %>
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Estado</dt>
+                    <dd><%= solicitud.estado %></dd>
+                </div>
+
+                <div>
+                    <dt>Cotización preliminar</dt>
+                    <dd>
+                        <%= new Intl.NumberFormat(
+                            "es-CL",
+                            {
+                                style: "currency",
+                                currency: "CLP",
+                                maximumFractionDigits: 0
+                            }
+                        ).format(solicitud.cotizacionEstimada) %>
+                    </dd>
+                </div>
+            </dl>
+
+            <% if (numerosSeleccionados.length > 0) { %>
+    <h2>Parrilla solicitada</h2>
+
+    <ol class="parrilla-confirmacion">
+        <% numerosSeleccionados.forEach(item => { %>
+            <li><%= item.numero.nombre %></li>
+        <% }) %>
+    </ol>
+<% } else { %>
+    <p class="nota">
+        Círculo Malabarista preparará la selección de números
+        según las características indicadas.
+    </p>
+<% } %>
+
+            <p class="nota">
+                El valor es preliminar. La agrupación confirmará la
+                disponibilidad y la cotización definitiva.
+            </p>
+
+            <a href="/" class="boton boton-principal">
+                Volver al inicio
+            </a>
+        </section>
+    </main>
+</body>
+</html>

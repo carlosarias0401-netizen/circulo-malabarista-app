@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/panel" class="marca">Panel Círculo Malabarista</a>
+
+            <form action="/logout" method="POST">
+                <button type="submit" class="boton-salir">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <main class="contenedor seccion">
+        <p class="etiqueta-panel">Acceso restringido</p>
+
+        <h1 class="titulo-panel">
+            Bienvenido, <%= usuarioActual.nombre %>
+        </h1>
+
+        <p>
+            Perfil autorizado:
+            <strong><%= usuarioActual.rol %></strong>
+        </p>
+
+        <div class="tarjetas panel-tarjetas">
+            <article class="tarjeta">
+                <h3>Solicitudes</h3>
+
+                <p>
+                    Consulta las solicitudes recibidas desde el sitio.
+                </p>
+
+                <a
+                    href="/panel/solicitudes"
+                    class="enlace-panel"
+                >
+                    Ver solicitudes
+                </a>
+            </article>
+
+            <article class="tarjeta">
+                <h3>Agenda</h3>
+
+                <p>
+                    Consulta las presentaciones aceptadas, sus números
+                    y los artistas asignados.
+                </p>
+
+                <a href="/panel/agenda" class="enlace-panel">
+                    Ver agenda
+                </a>
+            </article>
+
+            <% if (usuarioActual.rol === "Administrador") { %>
+                <article class="tarjeta">
+                    <h3>Administración</h3>
+
+                    <p>
+                        Gestiona solicitudes, integrantes, números y tarifas.
+                    </p>
+
+                    <a href="/panel/administracion">
+                        Comprobar acceso administrativo
+                    </a>
+                </article>
+            <% } %>
+        </div>
+    </main>
+</body>
+</html>

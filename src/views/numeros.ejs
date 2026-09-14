@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/" class="marca">Círculo Malabarista</a>
+
+            <nav>
+                <a href="/">Inicio</a>
+                <a href="/numeros">Números artísticos</a>
+                <a href="/solicitudes/nueva">Solicitar servicio</a>
+                <a href="/login">Acceso interno</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="cabecera-pagina">
+            <div class="contenedor">
+                <p class="etiqueta">Catálogo artístico</p>
+
+                <h1>Números artísticos</h1>
+
+                <p>
+                    Explora las disciplinas disponibles y construye una
+                    propuesta adaptada a tu evento.
+                </p>
+            </div>
+        </section>
+
+        <section class="contenedor seccion">
+            <% if (numeros.length === 0) { %>
+                <p>No existen números disponibles actualmente.</p>
+            <% } %>
+
+            <div class="catalogo">
+                <% numeros.forEach(numero => { %>
+                    <article class="tarjeta-numero">
+                        <div class="encabezado-tarjeta">
+                            <span class="categoria">
+                                <%= numero.categoria %>
+                            </span>
+
+                            <% if (numero.recursoUnico) { %>
+                                <span class="insignia">
+                                    Disponibilidad limitada
+                                </span>
+                            <% } %>
+                        </div>
+
+                        <h2><%= numero.nombre %></h2>
+
+                        <p><%= numero.descripcion %></p>
+
+                        <div class="precio">
+                            Desde
+                            <strong>
+                                <%= new Intl.NumberFormat(
+                                    "es-CL",
+                                    {
+                                        style: "currency",
+                                        currency: "CLP",
+                                        maximumFractionDigits: 0
+                                    }
+                                ).format(numero.precioBase) %>
+                            </strong>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+
+            <div class="centrado">
+                <a
+                    href="/solicitudes/nueva"
+                    class="boton boton-principal"
+                >
+                    Construir propuesta
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contenedor">
+            <p>Sistema de gestión de Círculo Malabarista</p>
+        </div>
+    </footer>
+</body>
+</html>

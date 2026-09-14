@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/panel" class="marca">
+                Panel Círculo Malabarista
+            </a>
+
+            <div class="acciones-usuario">
+                <span>
+                    <%= usuarioActual.nombre %> ·
+                    <%= usuarioActual.rol %>
+                </span>
+
+                <form action="/logout" method="POST">
+                    <button type="submit" class="boton-salir">
+                        Cerrar sesión
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="contenedor seccion">
+        <a href="/panel" class="volver">← Volver al panel</a>
+
+        <h1 class="titulo-panel">Agenda de presentaciones</h1>
+
+        <p>
+            Presentaciones aceptadas y equipo artístico asignado.
+        </p>
+
+        <% if (solicitudesConNumeros.length === 0) { %>
+            <div class="estado-vacio">
+                No existen presentaciones aceptadas.
+            </div>
+        <% } else { %>
+            <div class="tabla-contenedor">
+                <table class="tabla-solicitudes">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Evento</th>
+                            <th>Comuna</th>
+                            <th>Artistas</th>
+                            <th>Números</th>
+                            <th>Detalle</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% solicitudesConNumeros.forEach(item => { %>
+                            <tr>
+                                <td>
+                                    <%= item.solicitud.fechaEvento
+                                        .toLocaleDateString("es-CL") %>
+                                </td>
+
+                                <td>
+                                    <%= item.solicitud.horaEvento %>
+                                </td>
+
+                                <td>
+                                    <%= item.solicitud.tipoEvento %>
+                                </td>
+
+                                <td>
+                                    <%= item.solicitud.comuna %>
+                                </td>
+
+                                <td>
+                                    <%= item.solicitud.artistasAsignados
+                                        .map(artista => artista.nombre)
+                                        .join(", ") || "Sin asignación" %>
+                                </td>
+
+                                <td>
+                                    <%= item.numeros.join(", ") ||
+                                        "Propuesta normal" %>
+                                </td>
+
+                                <td>
+                                    <a href="/panel/solicitudes/<%= item.solicitud._id %>">
+                                        Ver
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </main>
+</body>
+</html>

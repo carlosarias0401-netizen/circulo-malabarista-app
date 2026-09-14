@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/" class="marca">Círculo Malabarista</a>
+
+            <nav>
+                <a href="/">Inicio</a>
+                <a href="/numeros">Números artísticos</a>
+                <a href="/solicitudes/nueva">Solicitar servicio</a>
+                <a href="/login">Acceso interno</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="cabecera-pagina">
+            <div class="contenedor">
+                <p class="etiqueta">Solicitar una presentación</p>
+
+                <h1>¿Qué tipo de propuesta necesitas?</h1>
+
+                <p>
+                    Escoge la alternativa que represente mejor las
+                    características de tu evento.
+                </p>
+            </div>
+        </section>
+
+        <section class="contenedor seccion">
+            <div class="tarjetas-modalidad">
+                <article class="tarjeta-modalidad">
+                    <span class="numero-paso">01</span>
+
+                    <h2>Solicitud normal</h2>
+
+                    <p>
+                        Cuéntanos las características generales de tu evento
+                        y nosotros prepararemos una propuesta artística.
+                    </p>
+
+                    <ul>
+                        <li>Proceso sencillo y rápido.</li>
+                        <li>Eliges la cantidad de artistas.</li>
+                        <li>La agrupación propone los números.</li>
+                        <li>Recibes una estimación preliminar.</li>
+                    </ul>
+
+                    <a
+                        href="/solicitudes/normal"
+                        class="boton boton-principal"
+                    >
+                        Comenzar solicitud normal
+                    </a>
+                </article>
+
+                <article class="tarjeta-modalidad destacada">
+                    <span class="insignia-innovacion">
+                        Propuesta personalizada
+                    </span>
+
+                    <span class="numero-paso">02</span>
+
+                    <h2>Arma tu espectáculo</h2>
+
+                    <p>
+                        Selecciona los números que quieres ver y organiza
+                        visualmente la secuencia del espectáculo.
+                    </p>
+
+                    <ul>
+                        <li>Catálogo interactivo.</li>
+                        <li>Parrilla artística personalizada.</li>
+                        <li>Botones para subir, bajar o quitar.</li>
+                        <li>Cotización dinámica.</li>
+                    </ul>
+
+                    <a
+                        href="/solicitudes/avanzada"
+                        class="boton boton-principal"
+                    >
+                        Armar mi espectáculo
+                    </a>
+                </article>
+
+                <article class="tarjeta-modalidad">
+                    <span class="numero-paso">03</span>
+
+                    <h2>Solicitud comunitaria</h2>
+
+                    <p>
+                        Alternativa para juntas de vecinos, organizaciones
+                        territoriales y otras agrupaciones sociales.
+                    </p>
+
+                    <ul>
+                        <li>Formulario adaptado.</li>
+                        <li>Permite indicar presupuesto.</li>
+                        <li>Evaluación de condiciones sociales.</li>
+                        <li>Atención diferenciada.</li>
+                    </ul>
+
+                    <a
+                        href="/solicitudes/comunitaria"
+                        class="boton boton-principal"
+                    >
+                        Realizar solicitud comunitaria
+                    </a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contenedor">
+            <p>Sistema de gestión de Círculo Malabarista</p>
+        </div>
+    </footer>
+</body>
+</html>

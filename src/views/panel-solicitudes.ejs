@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><%= titulo %></title>
+
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+    <header class="encabezado">
+        <div class="contenedor navegacion">
+            <a href="/panel" class="marca">
+                Panel Círculo Malabarista
+            </a>
+
+            <div class="acciones-usuario">
+                <span>
+                    <%= usuarioActual.nombre %> ·
+                    <%= usuarioActual.rol %>
+                </span>
+
+                <form action="/logout" method="POST">
+                    <button type="submit" class="boton-salir">
+                        Cerrar sesión
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="contenedor seccion">
+        <a href="/panel" class="volver">← Volver al panel</a>
+
+        <h1 class="titulo-panel">Solicitudes recibidas</h1>
+
+        <p>
+            <% if (usuarioActual.rol === "Administrador") { %>
+                Puedes consultar y gestionar las solicitudes.
+            <% } else { %>
+                Tu perfil posee acceso de consulta.
+            <% } %>
+        </p>
+
+        <% if (solicitudes.length === 0) { %>
+            <div class="estado-vacio">
+                No existen solicitudes registradas.
+            </div>
+        <% } else { %>
+            <div class="tabla-contenedor">
+                <table class="tabla-solicitudes">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Modalidad</th>
+                            <th>Fecha</th>
+                            <th>Comuna</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% solicitudes.forEach(solicitud => { %>
+                            <tr>
+                                <td>
+                                    <%= solicitud.codigoSeguimiento %>
+                                </td>
+
+                                <td><%= solicitud.nombreCliente %></td>
+
+                                <td><%= solicitud.tipoSolicitud %></td>
+
+                                <td>
+                                    <%= solicitud.fechaEvento.toLocaleDateString("es-CL") %>
+                                    <br>
+                                    <%= solicitud.horaEvento %>
+                                </td>
+
+                                <td><%= solicitud.comuna %></td>
+
+                                <td>
+                                    <span class="estado estado-<%= solicitud.estado.toLowerCase() %>">
+                                        <%= solicitud.estado %>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <a
+                                        href="/panel/solicitudes/<%= solicitud._id %>"
+                                    >
+                                        Ver detalle
+                                    </a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        <% } %>
+    </main>
+</body>
+</html>
